@@ -5,17 +5,17 @@ require "influxdb"
 
 # @return [String]
 def option_string
-  flags = [
+  server_id = ENV.fetch("SPEEDTEST_SERVER_ID") do
+    warn "No speedtest server ID provided. Please set the SPEEDTEST_SERVER_ID environment variable."
+    exit 1
+  end
+  
+  [
     "--accept-license",
     "--format=json",
     "--precision=8",
-  ]
-
-  if (server = ENV.fetch("SPEEDTEST_SERVER_ID", nil))
-    flags << "--server-id=#{server}"
-  end
-
-  flags.join(" ")
+    "--server-id=#{server_id}",
+  ].join(" ")
 end
 
 # @return [Hash] the resulting JSON from the call to speedtest
