@@ -55,12 +55,8 @@ def send_to_influx(data)
     password: password,
   )
 
-  puts "Sending new data to InfluxDB:"
-  puts JSON.pretty_generate(data)
-
-  client.write_point(
-    "speed_test_results",
-    fields: {
+  data = {
+    values: {
       download: data["download"]["bandwidth"],
       upload: data["upload"]["bandwidth"],
       ping: data["ping"]["latency"],
@@ -76,7 +72,11 @@ def send_to_influx(data)
       server_location: data["server"]["location"],
       server_country: data["server"]["country"],
     },
-  )
+  }
+  
+  puts "Sending new data to InfluxDB:"
+  puts JSON.pretty_generate(data)
+  client.write_point("speed_test_results", data)
 end
 
 loop do
