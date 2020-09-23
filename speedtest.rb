@@ -44,7 +44,7 @@ end
 def send_to_influx(data)
   client = InfluxDB::Client.new(
     ENV.fetch("INFLUXDB_DATABASE", "speedtest"),
-    host: ENV.fetch("INFLUXDB_HOST", "http://localhost"),
+    host: ENV.fetch("INFLUXDB_HOST", "localhost"),
     port: ENV.fetch("INFLUXDB_PORT", "8086"),
     username: ENV.fetch("INFLUXDB_USERNAME", nil),
     password: ENV.fetch("INFLUXDB_PASSWORD", nil),
