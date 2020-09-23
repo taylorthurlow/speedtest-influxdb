@@ -9,7 +9,7 @@ def option_string
     warn "No speedtest server ID provided. Please set the SPEEDTEST_SERVER_ID environment variable."
     exit 1
   end
-  
+
   [
     "--accept-license",
     "--format=json",
@@ -43,9 +43,9 @@ end
 # @return [Boolean] true if successful
 def send_to_influx(data)
   username = ENV["INFLUXDB_USERNAME"]
-  username = nil if username.blank?
+  username = nil if username.empty?
   password = ENV["INFLUXDB_PASSWORD"]
-  password = nil if password.blank?
+  password = nil if password.empty?
 
   client = InfluxDB::Client.new(
     ENV.fetch("INFLUXDB_DATABASE", "speedtest"),
@@ -73,7 +73,7 @@ def send_to_influx(data)
       server_country: data["server"]["country"],
     },
   }
-  
+
   puts "Sending new data to InfluxDB:"
   puts JSON.pretty_generate(data)
   client.write_point("speed_test_results", data)
