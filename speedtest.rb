@@ -42,12 +42,17 @@ end
 #
 # @return [Boolean] true if successful
 def send_to_influx(data)
+  username = ENV["INFLUXDB_USERNAME"]
+  username = nil if username.blank?
+  password = ENV["INFLUXDB_PASSWORD"]
+  password = nil if password.blank?
+
   client = InfluxDB::Client.new(
     ENV.fetch("INFLUXDB_DATABASE", "speedtest"),
     host: ENV.fetch("INFLUXDB_HOST", "localhost"),
     port: ENV.fetch("INFLUXDB_PORT", "8086"),
-    username: ENV.fetch("INFLUXDB_USERNAME", nil),
-    password: ENV.fetch("INFLUXDB_PASSWORD", nil),
+    username: username,
+    password: password,
   )
 
   puts "Sending new data to InfluxDB:"
